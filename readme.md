@@ -1,3 +1,8 @@
+![Terraform](https://img.shields.io/badge/Terraform-1.6+-623CE4?logo=terraform)
+![AWS](https://img.shields.io/badge/AWS-Serverless-orange?logo=amazonaws)
+![CI](https://img.shields.io/badge/CI-GitHub_Actions-blue?logo=githubactions)
+
+
 # Terraform AWS Serverless Platform
 
 Production-style serverless platform built with Terraform.

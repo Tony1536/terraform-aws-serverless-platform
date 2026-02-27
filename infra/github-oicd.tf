@@ -14,22 +14,24 @@ resource "aws_iam_role" "github_actions_terraform" {
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Effect    = "Allow"
-      Principal = { Federated = aws_iam_openid_connect_provider.github.arn }
-      Action    = "sts:AssumeRoleWithWebIdentity"
-      Condition = {
-        StringEquals = {
-          "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-        }
-        StringLike = {
-          "token.actions.githubusercontent.com:sub" = [
-            "repo:${var.github_repo}:ref:refs/heads/main",
-            "repo:${var.github_repo}:pull_request"
-          ]
+    Statement = [
+      {
+        Effect    = "Allow"
+        Principal = { Federated = aws_iam_openid_connect_provider.github.arn }
+        Action    = "sts:AssumeRoleWithWebIdentity"
+        Condition = {
+          StringEquals = {
+            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+          }
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:${var.github_repo}:ref:refs/heads/main",
+              "repo:${var.github_repo}:pull_request"
+            ]
+          }
         }
       }
-    }]
+    ]
   })
 
   tags = local.tags
@@ -53,11 +55,16 @@ resource "aws_iam_policy" "github_terraform_deploy" {
         ]
         Resource = "*"
       },
-
       {
         Effect = "Allow"
         Action = [
+          "iam:GetOpenIDConnectProvider",
+
           "iam:GetRole",
+          "iam:ListRolePolicies",
+          "iam:GetRolePolicy",
+          "iam:ListAttachedRolePolicies",
+
           "iam:CreateRole",
           "iam:DeleteRole",
           "iam:PassRole",
@@ -65,6 +72,7 @@ resource "aws_iam_policy" "github_terraform_deploy" {
           "iam:DetachRolePolicy",
           "iam:PutRolePolicy",
           "iam:DeleteRolePolicy",
+
           "iam:CreatePolicy",
           "iam:DeletePolicy",
           "iam:GetPolicy",
@@ -73,7 +81,6 @@ resource "aws_iam_policy" "github_terraform_deploy" {
         ]
         Resource = "*"
       },
-
       {
         Effect = "Allow"
         Action = [

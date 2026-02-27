@@ -35,7 +35,7 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::188610431231:role/serverless-platform-dev-github-terraform
+          role-to-assume: 
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Terraform fmt
@@ -65,11 +65,11 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::188610431231:role/serverless-platform-dev-github-terraform
+          role-to-assume: 
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Terraform init
         run: terraform init
 
       - name: Terraform apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -target=module.lambda_api -target=module.lambda_worker -target=module.api -target=module.dynamodb -target=module.queue

@@ -52,7 +52,7 @@ module "lambda_worker" {
 module "api" {
   source = "./modules/api"
 
-  name       = "${local.name_prefix}-http"
+  name        = "${local.name_prefix}-http"
   lambda_name = module.lambda_api.function_name
   lambda_arn  = module.lambda_api.function_arn
 

@@ -3,7 +3,6 @@ variable "github_repo" {
   default = "Tony1536/terraform-aws-serverless-platform"
 }
 
-# OIDC provider de GitHub (1 por cuenta normalmente)
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
